@@ -1,38 +1,34 @@
 var express = require('express');
 var router = express.Router();
 
-
-
 var f = require('../modules/fetchHelper');
 
 
-
-
-/* GET home page.
+/* GET home page.*/
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
-}); */
+    res.render('index',  { outcome:' ', url: '', path:''});
+});
 
-
-// try localhost:3000/?url=http://www.google.com&path=//title
-router.get('/', function(req, res, next) { // todo post instead of get
-    var url = req.query.url;
-    var path = req.query.path;
+router.post('/', function(req, res, next) {
+    var url = req.body.url;
+    var path = req.body.path;
 
     console.log("url: " + url);
     console.log("path: " + path);
 
-    f.getPage(url, function(error, dirtyBody) { // todo body instead of query
+    f.getPage(url, function(error, dirtyBody) {
         if (!error) {
             var body = f.sanitize(dirtyBody);
-            var nodes = f.applyXPath(body, path);
+            f.applyXPath(body, path, function(nodes){
+                console.log("returning from calls");
 
-            console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
-            console.log("node: " + nodes[0].toString());
+                console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
+                console.log("node: " + nodes[0].toString());
 
-            res.render('index', { title: 'success' });
+                res.render('index', {outcome: nodes[0].toString(), url: url, path: path });
+            });
         }
-        else res.render('index', { title: 'error' });
+        else res.render('index', { outcome: 'error', url: url, path: path });
     });
 
 });

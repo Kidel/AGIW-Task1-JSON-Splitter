@@ -1,5 +1,22 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1= 'Xpath-AGIW'
+  p Welcome to Xpath-AGIW
+  div(id='form')
+      form(method='POST', action='/')
+          div
+              label(for='url') Please insert the url
+          div
+              input(id='url', name='url', type='text', value='#{url}', placeholder ='example: http://www.google.com')
+          div
+              label(for='path') Please insert the xpath
+          div
+              input(id='path', name='path', type='text', value='#{path}', placeholder ='example: //title')
+          div
+              input(type='submit', value="Submit")
+
+  div(id='results')
+      span(class='outcome') #{outcome}
+      div(id='node')
+
