@@ -22,10 +22,13 @@ router.post('/', function(req, res, next) {
             f.applyXPath(body, path, function(nodes){
                 console.log("returning from calls");
 
-                console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
-                console.log("node: " + nodes[0].toString());
+                if(typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
+                    console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
+                    console.log("node: " + nodes[0].toString());
 
-                res.render('index', {outcome: nodes[0].toString(), url: url, path: path });
+                    res.render('index', {outcome: nodes[0].toString(), url: url, path: path});
+                }
+                else res.render('index', { outcome: 'error', url: url, path: path });
             });
         }
         else res.render('index', { outcome: 'error', url: url, path: path });
