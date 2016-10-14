@@ -61,7 +61,7 @@ module.exports = {
     for( var j = 0,length = keys.length; j < length; j++ ) {
         if (paths[keys[j]] == null) continue;
         paths[keys[j]] = paths[keys[j]].trim().replace(/(\r\n|\n|\r)/gm, "");
-        f.applyXPath(body, paths[keys[j]], function (nodes) {
+        this.applyXPath(body, paths[keys[j]], function (nodes) {
             console.log("path: " + paths[keys[j]]);
             console.log("returning from calls");
             if (typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
