@@ -10,16 +10,13 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var url = req.body.url;
-    var paths = req.body.path;
-    //var key = req.body.key;
-
-    console.log("url: " + url);
+    var paths = req.body.paths;
 
     f.getPage(url, function(error, dirtyBody) {
         if (!error) {
             var body = f.sanitize(dirtyBody);
             f.applyEveryPath(url, body, paths, function(results){
-                res.json(results)
+                res.json(results);
             });
         }
         else res.json([{ outcome: 'danger', message: "error fetching page: " + error , url: url}]);

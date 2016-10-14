@@ -33,7 +33,7 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
         for (var i in urls) {
                 if(urls[i] != null) urls[i] = urls[i].trim().replace(/(\r\n|\n|\r)/gm, "");
                 console.log("Fetching url: " + urls[i] + " - for xpath: " + paths);
-                $http.post('/rest/', {url: urls[i], path: paths}).success(function (response) {
+                $http.post('/rest/', {url: urls[i], paths: paths}).success(function (response) {
                     console.log("Request sent...");
                     if (response.err) {
                         console.log("There was an error in the request");
