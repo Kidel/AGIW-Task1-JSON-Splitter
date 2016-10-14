@@ -6,7 +6,8 @@ block content
     div(id='form', data-ng-controller='requests')
         div(class="form-group")
             label(for='urls') Please insert the url list separated by comma
-            textarea(id='urls', name='urls', class="form-control", placeholder ='example: \n"https://www.google.it/", \n"https://www.google.it/"', rows="6", cols="50", data-ng-model='urls') {{urls}}
+            textarea(id='urls', name='urls', class="form-control", placeholder ='example: \n"https://www.amazon.it/Potter-maledizione-dellerede-speciale-Scriptbook/dp/8869187497/",' +
+            ' \n"https://www.amazon.it/Sony-9858430-PlayStation-500-Chassis/dp/B010TNVS1W/"', rows="6", cols="50", data-ng-model='urls') {{urls}}
         div(class="form-group")
             label(for='paths') Please insert the xpath
             textarea(id='paths', name='paths', class="form-control", placeholder ='example: \n{\n  "title": "//title", \n  "something": "//div[last()"]\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
