@@ -24,4 +24,4 @@ block content
         div(class="label label-default") Every output message should link to the source URL
         div(id='results', data-ng-repeat="result in results track by $index")
             div(class='label label-{{outcomes[$index]}}')
-                a(href='{{sources[$index]}}') {{results[$index]}}
+                a(href='{{sources[$index]}}', target='_new') {{results[$index]}}
