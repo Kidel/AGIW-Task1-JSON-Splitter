@@ -1,7 +1,7 @@
 app.controller('requests', ['$scope', '$http', function($scope, $http) {
 
-    $scope.urls = ""; // es: '"https://www.google.it/", "https://www.google.it/"'
-    $scope.paths = ""; // es: '{"title": "//title", "h1": "//h1"}';
+    $scope.urls = ''; // es: '"https://www.google.it/", "https://www.google.it/"';
+    $scope.paths = ''; // es: '{"title": "//title", "h1": "//h1"}';
 
     $scope.results = [];
 
@@ -31,14 +31,9 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
         }
         // for each url
         for (var i in urls) {
-            if(urls[i] == null) continue;
-            // for each json attribute
-            for( var j = 0,length = keys.length; j < length; j++ ) {
-                if(paths[keys[j]] == null) continue;
                 urls[i] = urls[i].trim().replace(/(\r\n|\n|\r)/gm, "");
-                paths[keys[j]] = paths[keys[j]].trim().replace(/(\r\n|\n|\r)/gm, "");
-                console.log("Fetching url: " + urls[i] + " - for xpath: " + paths[keys[j]]);
-                $http.post('/rest/', {url: urls[i], path: paths[keys[j]], key: keys[j]}).success(function (response) {
+                console.log("Fetching url: " + urls[i] + " - for xpath: " + paths);
+                $http.post('/rest/', {url: urls[i], path: paths}).success(function (response) {
                     console.log("Request sent...");
                     if (response.err) {
                         console.log("There was an error in the request");
@@ -52,10 +47,10 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
                             return;
                         }
                         console.log(response);
-                        $scope.results.push({outcome: response.outcome, message: response.result, url: response.url});
+                        $scope.results = $scope.results.concat(response);
                     }
                 });
-            }
+            //}
         }
     };
 
