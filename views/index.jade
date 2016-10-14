@@ -5,11 +5,11 @@ block content
     p Welcome to Xpath-AGIW
     div(id='form', data-ng-controller='requests')
         div(class="form-group")
-            label(for='urls') Please insert the url list separated by comma
+            label(for='urls') Please insert the url list separated by comma (urls mus be between quotes and last url is not followed by a comma)
             textarea(id='urls', name='urls', class="form-control", placeholder ='example: \n"https://www.amazon.it/Potter-maledizione-dellerede-speciale-Scriptbook/dp/8869187497/",' +
             ' \n"https://www.amazon.it/Sony-9858430-PlayStation-500-Chassis/dp/B010TNVS1W/"', rows="6", cols="50", data-ng-model='urls') {{urls}}
         div(class="form-group")
-            label(for='paths') Please insert the xpath
+            label(for='paths') Please insert the xpaths in JSON format (attributes and values must be between quotes)
             textarea(id='paths', name='paths', class="form-control", placeholder ='example: \n{\n  "title": "//title", \n  "something": "//div[last()"]\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
         div(class="form-group")
             input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
