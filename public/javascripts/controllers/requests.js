@@ -5,6 +5,7 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
 
     $scope.results = [];
     $scope.outcomes = [];
+    $scope.sources = [];
 
     $scope.testData = function() {
         $scope.outcomes = [];
@@ -46,6 +47,7 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
                         console.log("There was an error in the request");
                         $scope.outcomes.push("danger");
                         $scope.results.push("error in request");
+                        $scope.sources.push("/");
                     }
                     else {
                         console.log("I got the data I requested");
@@ -53,11 +55,13 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
                             console.log("But it was empty");
                             $scope.outcomes.push("warning");
                             $scope.results.push("empty data");
+                            $scope.sources.push("/");
                             return;
                         }
                         console.log(response);
                         $scope.outcomes.push(response.outcome);
                         $scope.results.push(response.result);
+                        $scope.sources.push(response.url);
                     }
                 });
             }

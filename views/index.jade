@@ -15,8 +15,13 @@ block content
             input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
         div(class="label label-default") A correct output should be:
         br
-        div(class="label label-default") attribute: [ path -> nodeLocalName ]: 
+        div(class="label label-default") attribute: [ path -> nodeLocalName ]:&nbsp;
             u first
             | Node
+        br
+        div(class="label label-default") NB: it will only output the FIRST node of that path
+        br
+        div(class="label label-default") Every output message should link to the source URL
         div(id='results', data-ng-repeat="result in results track by $index")
-            div(class='label label-{{outcomes[$index]}}') {{results[$index]}}
+            div(class='label label-{{outcomes[$index]}}')
+                a(href='{{sources[$index]}}') {{results[$index]}}
