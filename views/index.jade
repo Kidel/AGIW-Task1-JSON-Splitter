@@ -13,5 +13,10 @@ block content
             textarea(id='paths', name='paths', class="form-control", placeholder ='example: \n{\n  "title": "//title", \n  "something": "//div[last()"]\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
         div(class="form-group")
             input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
+        div(class="label label-default") A correct output should be:
+        br
+        div(class="label label-default") attribute: [ path -> nodeLocalName ]: 
+            u first
+            | Node
         div(id='results', data-ng-repeat="result in results track by $index")
             div(class='label label-{{outcomes[$index]}}') {{results[$index]}}

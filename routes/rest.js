@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     var url = req.body.url;
     var path = req.body.path;
+    var key = req.body.key;
 
     console.log("url: " + url);
     console.log("path: " + path);
@@ -24,12 +25,12 @@ router.post('/', function(req, res, next) {
                 if(typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
                     //console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
                     console.log("node: " + nodes[0].toString());
-                    res.json({outcome: 'success', result: path + " -> " + nodes[0].localName + ": " + nodes[0].toString()});
+                    res.json({outcome: 'success', result: key + ": [ " + path + " -> " + nodes[0].localName + " ]: " + nodes[0].toString()});
                 }
-                else res.json({ outcome: 'warning', result: "no results for " +  path + " on " + url });
+                else res.json({ outcome: 'warning', result: key + ": no results for " +  path + " on " + url });
             });
         }
-        else res.json({ outcome: 'danger', result: "error fetching page: " + error });
+        else res.json({ outcome: 'danger', result: "error fetching page: " + error + " url: " + url});
     });
 
 });
