@@ -13,5 +13,5 @@ Then go to [localhost:3000](http://localhost:3000/)
 
 Requires Node.js.
 
-#### Screenshots
+## Screenshots
 ![screen 1](screenshots/capture1.png "screen 1")
