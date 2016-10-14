@@ -21,14 +21,13 @@ router.post('/', function(req, res, next) {
             var body = f.sanitize(dirtyBody);
             f.applyXPath(body, path, function(nodes){
                 console.log("returning from calls");
-
                 if(typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
                     console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
                     console.log("node: " + nodes[0].toString());
 
                     res.json({outcome: 'success', result: path + " -> " + nodes[0].localName + ": " + nodes[0].toString()});
                 }
-                else res.json({ outcome: 'warning', result: "no results for " +  path + " on " + url});
+                else res.json({ outcome: 'warning', result: "no results for " +  path + " on " + url });
             });
         }
         else res.json({ outcome: 'danger', result: "error fetching page: " + error });

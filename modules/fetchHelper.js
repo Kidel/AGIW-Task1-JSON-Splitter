@@ -21,11 +21,11 @@ module.exports = {
         request(opts, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 callback(null, body);
-                console.log("fetched");
+                console.log("FETCHED");
             }
             else {
-                console.log("error fetching");
-                callback(error, null);
+                console.log("error fetching " + error + " --- " + response.statusCode);
+                callback(error + response.statusCode, null);
             }
         });
     },
@@ -42,6 +42,7 @@ module.exports = {
 
     applyXPath: function(body, path, callback) {
         console.log("applying Xpath: " + path);
+
         var doc = new dom().parseFromString(body);
         var nodes = xpath.select(path, doc);
 

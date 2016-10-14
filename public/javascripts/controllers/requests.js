@@ -33,10 +33,12 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
         }
         // for each url
         for (var i in urls) {
+            if(urls[i] == null) continue;
             // for each json attribute
             for( var j = 0,length = keys.length; j < length; j++ ) {
+                if(paths[keys[j]] == null) continue;
                 urls[i] = urls[i].trim().replace(/(\r\n|\n|\r)/gm, "");
-                paths[keys[j]] = paths[keys[j]].trim().replace(/(\r\n|\n|\r)/gm, "")
+                paths[keys[j]] = paths[keys[j]].trim().replace(/(\r\n|\n|\r)/gm, "");
                 console.log("Fetching url: " + urls[i] + " - for xpath: " + paths[keys[j]]);
                 $http.post('/rest/', {url: urls[i], path: paths[keys[j]]}).success(function (response) {
                     console.log("Request sent...");
