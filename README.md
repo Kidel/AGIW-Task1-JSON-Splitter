@@ -1,2 +1,2 @@
 # Xpath-AGIW
-Node application for the first AGIW project
+Node.js and Angular.js application for the first AGIW project. 
