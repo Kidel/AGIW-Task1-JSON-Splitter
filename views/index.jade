@@ -2,10 +2,10 @@ extends layout
 
 block content
     h1= 'Xpath-AGIW'
-    p Welcome to Xpath-AGIW
+    p Welcome to Xpath-AGIW. Please use Chrome or Firefox.
     div(id='form', data-ng-controller='requests')
         div(class="form-group")
-            label(for='urls') Please insert the url list separated by comma (urls mus be between quotes and last url is not followed by a comma)
+            label(for='urls') Please insert the URLs separated by comma (URLs must be between quotes and the last URL is not to be followed by a comma)
             textarea(id='urls', name='urls', class="form-control", placeholder ='example: \n"https://www.amazon.it/Potter-maledizione-dellerede-speciale-Scriptbook/dp/8869187497/",' +
             ' \n"https://www.amazon.it/Sony-9858430-PlayStation-500-Chassis/dp/B010TNVS1W/"', rows="6", cols="50", data-ng-model='urls') {{urls}}
         div(class="form-group")
