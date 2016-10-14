@@ -4,11 +4,8 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
     $scope.paths = ""; // es: '{"title": "//title", "h1": "//h1"}';
 
     $scope.results = [];
-    $scope.outcomes = [];
-    $scope.sources = [];
 
     $scope.testData = function() {
-        $scope.outcomes = [];
         $scope.results = [];
         console.log("Message to $scope.testData");
         if(typeof $scope.urls == "undefined") { console.log("urls undefined"); return; }
@@ -45,27 +42,29 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
                     console.log("Request sent...");
                     if (response.err) {
                         console.log("There was an error in the request");
-                        $scope.outcomes.push("danger");
-                        $scope.results.push("error in request");
-                        $scope.sources.push("/");
+                        $scope.results.push({outcome: "danger", message: "error in request", url: "#"});
                     }
                     else {
                         console.log("I got the data I requested");
                         if (response.length < 1) {
                             console.log("But it was empty");
-                            $scope.outcomes.push("warning");
-                            $scope.results.push("empty data");
-                            $scope.sources.push("/");
+                            $scope.results.push({outcome: "warning", message: "empty data", url: "#"});
                             return;
                         }
                         console.log(response);
-                        $scope.outcomes.push(response.outcome);
-                        $scope.results.push(response.result);
-                        $scope.sources.push(response.url);
+                        $scope.results.push({outcome: response.outcome, message: response.result, url: response.url});
                     }
                 });
             }
         }
     };
+
+    $scope.sortBy = function(what) {
+        $scope.results.sort(function(a, b){
+            if(a[what] < b[what]) return -1;
+            if(a[what] > b[what]) return 1;
+            return 0;
+        });
+    }
 
 }]);

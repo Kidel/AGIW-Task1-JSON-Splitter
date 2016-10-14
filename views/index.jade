@@ -13,6 +13,10 @@ block content
             textarea(id='paths', name='paths', class="form-control", placeholder ='example: \n{\n  "title": "//title", \n  "something": "//div[last()"]\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
         div(class="form-group")
             input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
+            | &nbsp;
+            input(type='button', value="Sort by URL", data-ng-click='sortBy("url")', class="btn btn-default")
+            | &nbsp;
+            input(type='button', value="Sort by attribute", data-ng-click='sortBy("message")', class="btn btn-default")
         div(class="label label-default") A correct output should be:
         br
         div(class="label label-default") attribute: [ path -> nodeLocalName ]:&nbsp;
@@ -23,5 +27,5 @@ block content
         br
         div(class="label label-default") Every output message should link to the source URL
         div(id='results', data-ng-repeat="result in results track by $index")
-            div(class='label label-{{outcomes[$index]}}')
-                a(href='{{sources[$index]}}', target='_new') {{results[$index]}}
+            div(class='label label-{{results[$index].outcome}}')
+                a(href='{{results[$index].url}}', target='_new') {{results[$index].message}}
