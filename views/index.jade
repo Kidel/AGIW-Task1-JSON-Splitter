@@ -1,21 +1,16 @@
 extends layout
 
 block content
-  h1= 'Xpath-AGIW'
-  p Welcome to Xpath-AGIW
-  div(id='form', data-ng-controller='requests')
-      div
-          label(for='urls') Please insert the url list separated by comma
-      div
-          textarea(id='urls', name='urls', placeholder ='example: http://www.google.com', rows="4", cols="50", data-ng-model='urls'){{urls}}
-      div
-          label(for='paths') Please insert the xpath
-      div
-          textarea(id='paths', name='paths', placeholder ='example: //title', rows="4", cols="50", data-ng-model='paths'){{paths}}
-      div
-          input(type='button', value="Submit", data-ng-click='testData()')
-      div(id='results')
-          div(id='outcomeList', data-ng-repeat="outcome in outcomes track by $index")
-              div(class='result'){{outcome}}
-          div(id='resultList', data-ng-repeat="result in results track by $index")
-              div(class='result'){{result}}
+    h1= 'Xpath-AGIW'
+    p Welcome to Xpath-AGIW
+    div(id='form', data-ng-controller='requests')
+        div(class="form-group")
+            label(for='urls') Please insert the url list separated by comma
+            textarea(id='urls', name='urls', class="form-control", placeholder ='example: http://www.google.com, http://www.amazon.it', rows="4", cols="50", data-ng-model='urls'){{urls}}
+        div(class="form-group")
+            label(for='paths') Please insert the xpath
+            textarea(id='paths', name='paths', class="form-control", placeholder ='example: {"title": "//title", "something": "//div[last()"]}', rows="4", cols="50", data-ng-model='paths'){{paths}}
+        div(class="form-group")
+            input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
+        div(id='results', data-ng-repeat="result in results track by $index")
+            div(class='label label-{{outcomes[$index]}}'){{results[$index]}}

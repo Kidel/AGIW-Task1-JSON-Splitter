@@ -11,27 +11,27 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var url = req.body.url;
-    var paths = req.body.paths;
+    var path = req.body.path;
 
     console.log("url: " + url);
-    console.log("paths: " + paths);
+    console.log("path: " + path);
 
     f.getPage(url, function(error, dirtyBody) {
         if (!error) {
             var body = f.sanitize(dirtyBody);
-            f.applyXPath(body, paths, function(nodes){
+            f.applyXPath(body, path, function(nodes){
                 console.log("returning from calls");
 
                 if(typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
                     console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
                     console.log("node: " + nodes[0].toString());
 
-                    res.json({outcome: 'success', result: nodes[0].toString()});
+                    res.json({outcome: 'success', result: path + " -> " + nodes[0].localName + ": " + nodes[0].firstChild.data});
                 }
-                else res.json({ outcome: 'no results', result: "" });
+                else res.json({ outcome: 'warning', result: "no results for " +  path + " on " + url});
             });
         }
-        else res.json({ outcome: 'error fetching page', result: "" });
+        else res.json({ outcome: 'danger', result: "error fetching page" });
     });
 
 });
