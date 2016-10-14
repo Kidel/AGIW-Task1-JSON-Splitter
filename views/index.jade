@@ -7,15 +7,15 @@ block content
       div
           label(for='urls') Please insert the url list separated by comma
       div
-          textarea(id='urls', name='urls', placeholder ='example: http://www.google.com', rows="4", cols="50", data-ng-model='urls'){{urls}}
+          textarea(id='urls', name='urls', placeholder ='example: http://www.google.com', rows="4", cols="50", data-ng-model='urls') {{urls}}
       div
           label(for='paths') Please insert the xpath
       div
-          textarea(id='paths', name='paths', placeholder ='example: //title', rows="4", cols="50", data-ng-model='paths'){{paths}}
+          textarea(id='paths', name='paths', placeholder ='example: //title', rows="4", cols="50", data-ng-model='paths') {{paths}}
       div
           input(type='button', value="Submit", data-ng-click='testData()')
       div(id='results')
           div(id='outcomeList', data-ng-repeat="outcome in outcomes track by $index")
-              div(class='result'){{outcome}}
+              div(class='result') {{outcome}}
           div(id='resultList', data-ng-repeat="result in results track by $index")
-              div(class='result'){{result}}
+              div(class='result') {{result}}
