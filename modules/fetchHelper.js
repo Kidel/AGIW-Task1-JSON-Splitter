@@ -5,7 +5,7 @@ var sanitizeHtml = require('sanitize-html');
 
 var request = require('request');
 
-module.exports = {
+var fetchHelper = {
 
     getPage: function(url, callback)
     {
@@ -54,38 +54,31 @@ module.exports = {
     },
 
     applyEveryPath: function(url, body, paths, callback) {
-    var results = [];
-    var keys = Object.keys(paths);
-    var timeout = keys.length*1000; // max 1 second for each xpath
-    console.log(keys);
-    for( var j = 0,length = keys.length; j < length; j++ ) {
-        if (paths[keys[j]] == null) continue;
-        paths[keys[j]] = paths[keys[j]].trim().replace(/(\r\n|\n|\r)/gm, "");
-        this.applyXPath(body, paths[keys[j]], function (nodes) {
-            console.log("path: " + paths[keys[j]]);
-            console.log("returning from calls");
-            if (typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
-                //console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
-                console.log("node: " + nodes[0].toString());
-                results.push({
-                    outcome: 'success',
-                    message: keys[j] + ": [ " + paths[keys[j]] + " -> " + nodes[0].localName + " ]: " + nodes[0].toString(),
-                    url: url
-                });
-            }
-            else results.push({outcome: 'warning', message: keys[j] + ": no results for " + paths[keys[j]], url: url});
+        var results = [];
+        var keys = Object.keys(paths);
+        console.log(keys);
+        keys.forEach(function(key, j, array) {
+            if (paths[key] == null) return; //in array.forEach it's the same as 'continue' for a normal for
+            path = paths[key].trim().replace(/(\r\n|\n|\r)/gm, "");
+            fetchHelper.applyXPath(body, path, function (nodes) {
+                console.log("path: " + path);
+                console.log("returning from calls");
+                if (typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
+                    //console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
+                    console.log("node: " + nodes[0].toString());
+                    results.push({
+                        outcome: 'success',
+                        message: keys[j] + ": [ " + path + " -> " + nodes[0].localName + " ]: " + nodes[0].toString(),
+                        url: url
+                    });
+                }
+                else results.push({outcome: 'warning', message: keys[j] + ": no results for " + path, url: url});
+            });
+            if(results.length > keys.length) return;
+            if(j == keys.length - 1) callback(results);
         });
     }
 
-    // since this library doesn't have callbacks I'll leave this here to wait for all the results to be processed
-    while(timeout>0){
-        if(results.length >= keys.length || timeout <= 1) {
-            if(timeout <= 1) results[results.length] = {outcome: 'warning', message: "results truncated (page too big?)", url: url}
-            callback(results);
-            return;
-        }
-        timeout--;
-    }
-}
-
 };
+
+module.exports = fetchHelper;
