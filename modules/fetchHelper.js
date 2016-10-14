@@ -24,6 +24,7 @@ module.exports = {
                 console.log("FETCHED");
             }
             else {
+                if(typeof response == "undefined") {var response = {statusCode: "timeout"}}
                 console.log("error fetching " + error + " --- " + response.statusCode);
                 callback(error + response.statusCode, null);
             }
