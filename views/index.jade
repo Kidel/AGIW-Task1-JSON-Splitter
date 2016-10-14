@@ -6,11 +6,11 @@ block content
     div(id='form', data-ng-controller='requests')
         div(class="form-group")
             label(for='urls') Please insert the url list separated by comma
-            textarea(id='urls', name='urls', class="form-control", placeholder ='example: http://www.google.com, http://www.amazon.it', rows="4", cols="50", data-ng-model='urls'){{urls}}
+            textarea(id='urls', name='urls', class="form-control", placeholder ='example: http://www.google.com, http://www.amazon.it', rows="4", cols="50", data-ng-model='urls') {{urls}}
         div(class="form-group")
             label(for='paths') Please insert the xpath
-            textarea(id='paths', name='paths', class="form-control", placeholder ='example: {"title": "//title", "something": "//div[last()"]}', rows="4", cols="50", data-ng-model='paths'){{paths}}
+            textarea(id='paths', name='paths', class="form-control", placeholder ='example: {"title": "//title", "something": "//div[last()"]}', rows="4", cols="50", data-ng-model='paths') {{paths}}
         div(class="form-group")
             input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
         div(id='results', data-ng-repeat="result in results track by $index")
-            div(class='label label-{{outcomes[$index]}}'){{results[$index]}}
+            div(class='label label-{{outcomes[$index]}}') {{results[$index]}}
