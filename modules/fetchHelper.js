@@ -43,23 +43,20 @@ var fetchHelper = {
 
     applyXPath: function(body, path, callback) {
         console.log("applying Xpath: " + path);
-
         var doc = new dom().parseFromString(body);
         var nodes = xpath.select(path, doc);
-
         console.log("done, " + nodes.length + " results");
-
         callback(nodes);
-
     },
 
     applyEveryPath: function(url, body, paths, callback) {
         var results = [];
         var keys = Object.keys(paths);
         console.log(keys);
+
         keys.forEach(function(key, j, array) {
             if (paths[key] == null) return; //in array.forEach it's the same as 'continue' for a normal for
-            path = paths[key].trim().replace(/(\r\n|\n|\r)/gm, "");
+            var path = paths[key].trim().replace(/(\r\n|\n|\r)/gm, "");
             fetchHelper.applyXPath(body, path, function (nodes) {
                 console.log("path: " + path);
                 console.log("returning from calls");
