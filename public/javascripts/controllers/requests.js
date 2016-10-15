@@ -12,7 +12,11 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
     $scope.from = '';
     $scope.to = '';
 
+    $scope.hasNotLoadedJSON = true;
+    $scope.hasNotCutJSON = true;
+
     $scope.getData = function() {
+        if($scope.hasNotCutJSON) return;
         $scope.results = [];
         console.log("message to $scope.testData");
         if(typeof $scope.urlsRangeJSON == {}) { alert("urls and/or range undefined"); return; }
@@ -77,6 +81,7 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
                         $scope.urlsJSON = app;
                         console.log(app);
                         alert("JSON imported");
+                        $scope.hasNotLoadedJSON = false;
                         $scope.$apply();
                     }
                     catch (err) {
@@ -93,15 +98,23 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.cutRange = function() {
-        console.log("cut range started, " + $scope.from + " " + $scope.to);
-        var from = 0, to = 0;
+        if($scope.hasNotLoadedJSON) return;
+
         var processed = {};
+
         if($scope.from != '' && $scope.to != '') {
             from = $scope.from * 1;
             to = $scope.to * 1 + 1;
         }
-        console.log(from + " " + to);
-        if($scope.urlsJSON == {}) return {};
+        else {
+            var from = 0, to = 0;
+            $scope.from = 0;
+            $scope.to = 0;
+        }
+
+        console.log("cut range started, " + $scope.from + " " + $scope.to);
+
+        if($scope.urlsJSON == {}) return;
 
         console.log("starting loop");
         var fromFound = false;
@@ -113,21 +126,21 @@ app.controller('requests', ['$scope', '$http', function($scope, $http) {
                 fromFound = fromFound || (sourceApp[0] == from);
                 toFound = toFound || (sourceApp[0] == to);
                 if(fromFound && !toFound) {
-                    console.log("from found, source " + sourceApp[0] + ", not yet to");
+                    //console.log("from found, source " + sourceApp[0] + ", not yet to");
                     if (typeof processed[site] == "undefined") processed[site] = {};
                     processed[site][source] = $scope.urlsJSON[site][source];
                 }
             }
             if(toFound) {
-                console.log("all done");
-                console.log(processed);
+                console.log("Cut done");
+                //console.log(processed);
                 $scope.urlsRangeJSON = processed;
-                return processed;
+                $scope.hasNotCutJSON = false;
+                return;
             }
         }
         console.log(null);
         $scope.urlsRangeJSON = {};
-        return null;
     };
 
 }]);

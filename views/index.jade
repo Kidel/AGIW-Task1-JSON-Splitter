@@ -24,7 +24,7 @@ block content
                     input(id='to', name='to', class="form-control", placeholder ='example: 2500', data-ng-model='to', value="{{to}}")
                 div(style="clear:both")
                 div
-                    a.btn.btn-primary(data-ng-click='cutRange()')
+                    a.btn.btn-primary(data-ng-click='cutRange()', data-ng-disabled="hasNotLoadedJSON")
                         strong Cut Range
         div(style="clear:both")
         div(class="form-group")
@@ -45,7 +45,8 @@ block content
             + '\n                  }'
             + '\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
         div(class="form-group")
-            input(type='button', value="Submit", data-ng-click='getData()', class="btn btn-primary")
+            a.btn.btn-primary(data-ng-click='getData()', data-ng-disabled="hasNotCutJSON")
+                strong Submit
             | &nbsp;
             input(type='button', value="Sort by URL", data-ng-click='sortBy("url")', class="btn btn-default")
             | &nbsp;
