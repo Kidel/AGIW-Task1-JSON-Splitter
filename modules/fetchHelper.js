@@ -17,7 +17,6 @@ var fetchHelper = {
      }
      */
     applyEveryPath: function(url, source, paths, callback) {
-        var results = [];
         var rules = {};
         paths.forEach(function(pathObj, i) {
             if (pathObj["rule"] == null) return; //in array.forEach it's the same as 'continue' for a normal for
