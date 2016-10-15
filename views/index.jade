@@ -5,14 +5,47 @@ block content
     p Welcome to Xpath-AGIW. Please use Chrome or Firefox.
     div(id='form', data-ng-controller='requests')
         div(class="form-group")
-            label(for='urls') Please insert the URLs separated by comma (URLs must be between quotes and the last URL is not to be followed by a comma)
-            textarea(id='urls', name='urls', class="form-control", placeholder ='example: \n"https://www.amazon.it/Potter-maledizione-dellerede-speciale-Scriptbook/dp/8869187497/",' +
-            ' \n"https://www.amazon.it/Sony-9858430-PlayStation-500-Chassis/dp/B010TNVS1W/"', rows="6", cols="50", data-ng-model='urls') {{urls}}
+            span.file
+                input#file.form-control.hidden(type='file', name='file', onchange="document.getElementById('file-text').value = lastElem(lastElem(this.value.split('/')).split('\\\\'));")
+                input.btn.btn-default(type='button', onclick="document.getElementById('file').click();", value='Browse...')
+                input#file-text.form-control.fakefile(type='text', title='file-text', onclick="document.getElementById('file').click();", readonly='')
+            div
+                a.btn.btn-primary(data-ng-click='import()')
+                    strong Import JSON
+        div(class="form-group")
+            label Range
+            div
+                div(class="col-xs-1") from
+                div(class="col-xs-2")
+                    input(id='from', name='from', class="form-control", placeholder ='example: 2500', data-ng-model='from', value="{{from}}")
+                div(style="clear:both")
+                div(class="col-xs-1") to
+                div(class="col-xs-2")
+                    input(id='to', name='to', class="form-control", placeholder ='example: 2500', data-ng-model='to', value="{{to}}")
+                div(style="clear:both")
+                div
+                    a.btn.btn-primary(data-ng-click='cutRange()')
+                        strong Cut Range
+        div(style="clear:both")
         div(class="form-group")
             label(for='paths') Please insert the xpaths in JSON format (attributes and values must be between quotes)
-            textarea(id='paths', name='paths', class="form-control", placeholder ='example: \n{\n  "title": "//title", \n  "something": "//div[last()]"\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
+            textarea(id='paths', name='paths', class="form-control", placeholder ='example: '
+            + '\n{ '
+            + '\n  "alibaba.com": { '
+            + '\n                    "52-camera": [ '
+            + '\n                            {'
+            + '\n                               "rule": "//title/text()",'
+            + '\n                               "attribute_name": "Titolo"'
+            + '\n                            },'
+            + '\n                            {'
+            + '\n                               "rule": "//h1/text()",'
+            + '\n                               "attribute_name": "h1" '
+            + '\n                            }'
+            + '\n                     ]'
+            + '\n                  }'
+            + '\n}', rows="6", cols="50", data-ng-model='paths') {{paths}}
         div(class="form-group")
-            input(type='button', value="Submit", data-ng-click='testData()', class="btn btn-primary")
+            input(type='button', value="Submit", data-ng-click='getData()', class="btn btn-primary")
             | &nbsp;
             input(type='button', value="Sort by URL", data-ng-click='sortBy("url")', class="btn btn-default")
             | &nbsp;

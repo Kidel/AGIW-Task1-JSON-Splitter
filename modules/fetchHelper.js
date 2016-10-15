@@ -18,7 +18,8 @@ var fetchHelper = {
         var timeoutInMilliseconds = 10 * 1000;
         var opts = {
             url: url,
-            timeout: timeoutInMilliseconds
+            timeout: timeoutInMilliseconds,
+            headers: {'user-agent': 'node.js'}
         };
 
         request(opts, function (error, response, body) {
@@ -51,28 +52,51 @@ var fetchHelper = {
         callback(nodes);
     },
 
+    /*
+     {"alibaba.com": {
+     "52-camera": [
+     {
+     "rule": "//title/text()",
+     "attribute_name": "Titolo"
+     },
+     {
+     "rule": "//h1/text()",
+     "attribute_name": "h1"
+     }
+     ]
+     }
+     }
+    * */
     applyEveryPath: function(url, body, paths, callback) {
         var doc = new dom().parseFromString(body);
         var results = [];
-        var keys = Object.keys(paths);
-        keys.forEach(function(key, j, array) {
-            if (paths[key] == null) return; //in array.forEach it's the same as 'continue' for a normal for
-            var path = paths[key].trim().replace(/(\r\n|\n|\r)/gm, "");
-            fetchHelper.applyXPath(doc, path, function (nodes) {
-                if (typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
-                    //console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
-                    console.log("node: " + nodes[0].toString());
-                    results.push({
-                        outcome: 'success',
-                        message: keys[j] + ": [ " + path + " -> " + nodes[0].localName + " ]: " + entities.decode(nodes[0].toString()),
-                        url: url
+        paths.forEach(function(pathObj, i) {
+                if (pathObj["rule"] == null) return; //in array.forEach it's the same as 'continue' for a normal for
+                var path = pathObj["rule"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                fetchHelper.applyXPath(doc, path, function (nodes) {
+                    if (typeof nodes != 'undefined' && typeof nodes[0] != 'undefined') {
+                        //console.log(nodes[0].localName + ": " + nodes[0].firstChild.data);
+                        console.log("node: " + nodes[0].toString());
+                        var app = {
+                            outcome: 'success',
+                            message: pathObj["attribute_name"] + ": [ " + path + " -> " + nodes[0].localName + " ]: " + entities.decode(nodes[0].toString()),
+                            url: url,
+                            object: {}
+                        };
+                        app.object[url] = {};
+                        app.object[url][pathObj["attribute_name"]] = entities.decode(nodes[0].toString());
+                        results.push(app);
+                    }
+                    else results.push({
+                        outcome: 'warning',
+                        message: pathObj["attribute_name"] + ": no results for " + path,
+                        url: url,
+                        object: {}
                     });
-                }
-                else results.push({outcome: 'warning', message: keys[j] + ": no results for " + path, url: url});
+                });
+                if (results.length > paths.length) return;
+                if (i == paths.length - 1) callback(results);
             });
-            if(results.length > keys.length) return;
-            if(j == keys.length - 1) callback(results);
-        });
     }
 
 };
