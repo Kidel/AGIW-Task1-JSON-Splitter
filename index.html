@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Xpath-AGIW</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="javascripts/vendor/jquery-1.11.3.min.js"></script>
+    <script src="javascripts/vendor/bootstrap.min.js"></script>
+    <script src="javascripts/vendor/angular.min.js"></script>
+    <script src="javascripts/vendor/FileSaver.min.js"></script>
+    <script src="javascripts/helper.js"></script>
+    <script src="javascripts/app.js"></script>
+    <script src="javascripts/controllers/requests.js"></script>
+</head>
+<body data-ng-app="xpath">
+<h1>Xpath-AGIW</h1>
+<p>Welcome to Xpath-AGIW. Please use Chrome or Firefox.</p>
+<div id="form" data-ng-controller="requests">
+    <div class="form-group">
+        <label>Please select the complete sources.json file as provided by the Professor</label>
+        <div><span class="file">
+          <input id="file" type="file" name="file" onchange="document.getElementById('file-text').value = lastElem(lastElem(this.value.split('/')).split('\\'));" class="form-control hidden">
+          <input type="button" onclick="document.getElementById('file').click();" value="Browse..." class="btn btn-default">
+          <input id="file-text" type="text" title="file-text" onclick="document.getElementById('file').click();" readonly="" class="form-control fakefile"></span>
+        </div>
+        <div><a data-ng-click="import()" class="btn btn-primary"><strong>Import JSON</strong></a></div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label class="col-xs-1">From</label>
+            <div class="col-xs-2">
+                <input id="from" name="from" placeholder="example: 2501" data-ng-model="from" value="{{from}}" class="form-control">
+            </div>
+            <div style="clear:both"></div>
+            <label class="col-xs-1">to</label>
+            <div class="col-xs-2">
+                <input id="to" name="to" placeholder="example: 2750" data-ng-model="to" value="{{to}}" class="form-control">
+            </div>
+            <div style="clear:both"></div>
+            <br />
+            <div><a data-ng-click="cutRange()" data-ng-disabled="hasNotImported" class="btn btn-primary"><strong>Cut range and download your JSON</strong></a></div>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+</div>
+</body>
+</html>
