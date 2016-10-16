@@ -15,6 +15,17 @@ var fetchHelper = {
      ]
      }
      }
+
+     {
+     "swimoutlet.com": {
+     "2257-sunglasses": 	[ {
+     "rule": "//title/text()",
+     "attribute_name": "page_title",
+     "page_id": false
+     }
+     ]
+     }}
+
      */
     applyEveryPath: function(url, source, paths, callback) {
         var rules = {};
@@ -23,13 +34,21 @@ var fetchHelper = {
             var path = pathObj["rule"].trim().replace(/(\r\n|\n|\r)/gm, "");
             rules[pathObj["attribute_name"]] = path;
 
-            if (results.length > paths.length) return;
+            if (i > paths.length) return;
             if (i == paths.length - 1) {
-                osmosis.get(url).set(rules).data(function(listing){
+                //console.log("applying");
+                //console.log(rules);
+                //console.log("to: " + url);
+                osmosis
+                    .get(url)
+                    .config('user_agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36')
+                    .set(rules).data(function(listing){
                     console.log(listing);
                     var result = {outcome: 'success', message: listing, url:"#" }; // TODO
                     callback([result]);
-                });
+                }).log(console.log)
+                    .error(console.log)
+                    .debug(console.log);
             }
 
         });
